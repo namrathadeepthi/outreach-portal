@@ -106,12 +106,14 @@ For each relation, we define its inverse next to it.
 [nodalcentre, nodalcoordinatordetails] : NodalCoordinatorDetails  > NodalCentre!
 [user, nodalcoordinatordetails]        : NodalCoordinatorDetails? > User!
 
+
 #+END_SRC
 
 ** Keys
 
 An entity =K= is called a /key for/ an entity =A= if there
 is a relation =r: A? > K!=.
+
 
 |-------------------------+----------+---+---+---|
 | Entity                  | Key      |   |   |   |
@@ -135,6 +137,7 @@ state variables.
  #+BEGIN_SRC spec
 
 ;;; Primary state variables
+
  user-set                : set[User]               ; set of users in the system
  workshop-set            : set[Workshops]          ; set of workshops in the system
  nodal-centre-set        : set[NodalCentre]        ; set of nodal centres
@@ -143,6 +146,21 @@ state variables.
  
  #+END_SRC
 
+
+
+*** Applying relations to sets
+#+begin_example
+1.role = admin
+2.role = user
+5.role = user
+{1,2,5}.role = {admin, user,user} = {admin, user}
+
+{1,2,5}.succ = {2,3,6}
+{1,2,6}.factors = {{1}, {1,2}, {1,2,3,6}}
+{1,2,6}.factors.union = {{1}, {1,2}, {1,2,3,6}}.union = {1,2,3,6}
+#+end_example
+
+>>>>>>> Stashed changes
 ** Derived Entity sets
 #+BEGIN_SRC spec :tangle spec.txt
 
@@ -159,15 +177,18 @@ state variables.
 
 *** =user-set=
 
+
 There is atleast one user  whose role is =admin=.
 
     #+BEGIN_SRC spec :tangle spec.txt
 
     ;;; The admin-user
 
+
     For all elements u in admin-user-set, u belongs to user-set  ; there is atleast
                                                                  ; one user with
                                                                  ; role admin.
+
     #+END_SRC
 
 These specifications also capture referential integrity.
@@ -194,6 +215,7 @@ actor performing the operation.
  - D  delete a user      
 
 ** Actor
+
 Operations are performed by Actors.  Our application has one
 type of actor:  =user=. 
 
@@ -242,6 +264,7 @@ type of actor:  =user=.
 |--------------------+-------------+-----------+---------------------------------|
 | toClient()         | N/A         | N/A       | Returns data of user            |
 |--------------------+-------------+-----------+---------------------------------|
+
 ** Remarks
 
 - =makeUser(e: Email, n:Name, s: Session)= :: WHen a user is created by an
